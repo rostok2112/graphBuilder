@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1643576436 source:d:\рост\1\c_cpp_projecty_blet\graphbuilder\src\stack.c
+	"../include/types.h"
+
+1643581741 d:\рост\1\c_cpp_projecty_blet\graphbuilder\include\types.h
+	<string.h>
+	<stdlib.h>
+	<math.h>
+
+1643586192 source:d:\рост\1\c_cpp_projecty_blet\graphbuilder\src\main.c
+	<stdio.h>
+	"../include/types.h"
+
+1643586015 source:d:\рост\1\c_cpp_projecty_blet\graphbuilder\src\calcs.c
+	"../include/types.h"
+

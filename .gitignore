@@ -1,3 +1,17 @@
+#Directories
+bin/
+obj/
+lib/
+share/
+
+#Temp files
+~*
+*~
+
+#IDE files
+*.cbp
+*.layout
+
 # Prerequisites
 *.d
 

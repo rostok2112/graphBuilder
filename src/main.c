@@ -1,19 +1,20 @@
 #include <stdio.h>
-#include "../include/types.h"
+#include <locale.h>
+#include <types.h>
 
-#define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091
+GtkBuilder *builder;
+GtkWidget *window;
 
-int main()
+int main(int argc, char * argv[])
 {
-    char testStr [] = "2*(cos(x)+sin(x))/sqrt(abs(x-2))";
+    setlocale(LC_ALL, "ukr");
+    system("chcp 1251");
 
-    TokenArr_t * tmp = rpnTranslator(_strtok(testStr));
-    printf("Result = %.999g" , stackMachine(-PI, tmp));
+    gtk_init(&argc, &argv);
+    createWin (&window, "winMain", "resource/gtk_widgets/winMain.glade");
+    gtk_widget_show_all(window);
 
-    for(int i = 0; i < tmp->capacity; i++)
-        free(tmp->tokens[i].token);
-    free(tmp->tokens);
-    free(tmp);
+    gtk_main();
 
     return 0;
 }

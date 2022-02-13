@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.12)
 project(graphBuilder LANGUAGES C)
 
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_EXECUTABLE_SUFFIX   .out)
 set(ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ROOT_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ROOT_DIR}/bin)
@@ -42,7 +43,6 @@ add_executable(${PROJECT_NAME}  ${CS} )
 
 target_link_libraries(${PROJECT_NAME} ${DEP_NAME})  # link dependency
 
-
 # Find GTK
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
@@ -51,5 +51,7 @@ add_compile_options(${GTK3_CFLAGS_OTHER})
 add_compile_options(${GTK3_LIBS_OTHER})
 target_link_libraries(${PROJECT_NAME}  -lm -ldl ${GTK3_LIBRARIES})
 include_directories( ${GTK3_INCLUDE_DIRS})
+
+
 
 file(COPY ${ROOT_DIR}/resource DESTINATION ${ROOT_DIR}/bin/) #copy resource dir to bin

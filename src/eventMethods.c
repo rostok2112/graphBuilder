@@ -167,11 +167,11 @@ G_MODULE_EXPORT void onDrawOnDrawArea(GtkDrawingArea *drawArea, cairo_t *cr)
     calculateFromStr(0.0, FREE_CACHE);
 
     if(g_object_steal_data(G_OBJECT(drawArea), "isNeedScreenshot")) { // if pressed screenshot button
-        if(!system("mkdir screenshots")){
-            buffer = g_strdup_printf("screenshots/screenshot_%lld.png", (unsigned long long)time(NULL));
-            cairo_surface_write_to_png(cairo_get_target(cr), buffer);
-            free(buffer);
-        }
+        if(system("mkdir screenshots"));
+        buffer = g_strdup_printf("screenshots/screenshot_%lld.png", (unsigned long long)time(NULL));
+        cairo_surface_write_to_png(cairo_get_target(cr), buffer);
+        free(buffer);
+
     }
 }
 

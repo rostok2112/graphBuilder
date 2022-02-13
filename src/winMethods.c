@@ -5,8 +5,8 @@ void drawingAreaDrawGraph(GtkDrawingArea *drawArea, guchar funcStr[]){
     if(funcStr)
         if(*funcStr) {
             guchar *bufStr = strdup(funcStr);
-            gtk_widget_set_size_request(drawArea, 200, 200);
-            g_object_set_data(drawArea, "funcStr", bufStr);
+            gtk_widget_set_size_request(GTK_WIDGET(drawArea), 200, 200);
+            g_object_set_data(G_OBJECT(drawArea), "funcStr", bufStr);
         }
 }
 

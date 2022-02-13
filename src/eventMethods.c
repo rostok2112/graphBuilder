@@ -3,9 +3,10 @@
 #include <gtk/gtk.h>
 #include <time.h>
 
+
 G_MODULE_EXPORT void onBtnBuildGraphClicked(GtkButton * btnDrawGraph, GtkDialog * dlgDrawGraph)
 {
-    GtkWidget * dlgParent = btnDrawGraph;
+    GtkWidget * dlgParent = GTK_WIDGET(btnDrawGraph);
 
     while(dlgParent && !GTK_IS_WINDOW(dlgParent))
         dlgParent =  gtk_widget_get_parent(dlgParent);
@@ -32,10 +33,10 @@ G_MODULE_EXPORT void onBtnBuildGraphClicked(GtkButton * btnDrawGraph, GtkDialog 
             listChilds = gtk_container_get_children(GTK_CONTAINER(GTK_BOX(gtk_bin_get_child(GTK_BIN(dlgDrawGraph)))));
             while(listChilds && !GTK_IS_DRAWING_AREA(listChilds->data))
                 listChilds = listChilds->next;
-            GtkDrawingArea *drawArea = listChilds->data;
+            GtkDrawingArea *drawArea = GTK_DRAWING_AREA(listChilds->data);
 
             drawingAreaDrawGraph(drawArea, funcStr);
-            gtk_widget_set_visible(dlgDrawGraph, true);
+            gtk_widget_set_visible(GTK_WIDGET(dlgDrawGraph), true);
         }
 }
 
@@ -44,11 +45,11 @@ G_MODULE_EXPORT void onDrawOnDrawArea(GtkDrawingArea *drawArea, cairo_t *cr)
     guint width, height;
     GdkRGBA color;
     GtkStyleContext *context;
-    guchar *funcStr = g_object_get_data(drawArea, "funcStr");
+    guchar *funcStr = g_object_get_data(G_OBJECT(drawArea), "funcStr");
 
-    context=gtk_widget_get_style_context(drawArea);
-    width=gtk_widget_get_allocated_width(drawArea);
-    height=gtk_widget_get_allocated_height(drawArea);
+    context=gtk_widget_get_style_context(GTK_WIDGET(drawArea));
+    width=gtk_widget_get_allocated_width(GTK_WIDGET(drawArea));
+    height=gtk_widget_get_allocated_height(GTK_WIDGET(drawArea));
     gtk_render_background(context,cr,0,0,width,height);
 
     gtk_style_context_get_color(context,gtk_style_context_get_state
@@ -165,18 +166,18 @@ G_MODULE_EXPORT void onDrawOnDrawArea(GtkDrawingArea *drawArea, cairo_t *cr)
     cairo_stroke (cr);
     calculateFromStr(0.0, FREE_CACHE);
 
-    if(g_object_steal_data(drawArea, "isNeedScreenshot")) { // if pressed screenshot button
-        system("mkdir screenshots");
-        buffer = g_strdup_printf("screenshots/screenshot_%lld.png", (unsigned long long)time(NULL));
-        cairo_surface_write_to_png(cairo_get_target(cr), buffer);
-        free(buffer);
+    if(g_object_steal_data(G_OBJECT(drawArea), "isNeedScreenshot")) { // if pressed screenshot button
+        if(!system("mkdir screenshots")){
+            buffer = g_strdup_printf("screenshots/screenshot_%lld.png", (unsigned long long)time(NULL));
+            cairo_surface_write_to_png(cairo_get_target(cr), buffer);
+            free(buffer);
+        }
     }
-
 }
 
 G_MODULE_EXPORT void onBtnScreenshotClicked(GtkButton *btn, GtkDrawingArea *drawArea)
 {
-    g_object_set_data(drawArea, "isNeedScreenshot", GINT_TO_POINTER(1));
+    g_object_set_data(G_OBJECT(drawArea), "isNeedScreenshot", GINT_TO_POINTER(1));
 }
 
 G_MODULE_EXPORT void closeWindow(GtkWidget *widget, GtkWidget *window)
@@ -184,9 +185,10 @@ G_MODULE_EXPORT void closeWindow(GtkWidget *widget, GtkWidget *window)
     gtk_widget_set_visible(window, false);
 }
 
-
 G_MODULE_EXPORT void onHideDrawingDlg(GtkDialog *drawingDlg, GtkDrawingArea *drawArea)
 {
-    if(g_object_get_data(drawArea, "funcStr"))
-        g_free(g_object_steal_data(drawArea, "funcStr"));
+    if(g_object_get_data(G_OBJECT(drawArea), "funcStr"))
+        g_free(g_object_steal_data(G_OBJECT(drawArea), "funcStr"));
 }
+
+

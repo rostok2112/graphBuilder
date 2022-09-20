@@ -38,6 +38,10 @@ Just run
 ```
 sh build.sh 
 ```
+Or
+```
+./build.sh 
+```
 Or start build.sh by any another way
 
 ## Usage 
